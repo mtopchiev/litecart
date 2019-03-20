@@ -1,0 +1,21 @@
+
+{
+  "web": {
+    "baseUrl": "http://localhost/litecart/en/",
+    "username": "admin",
+    "password": "secret"
+  },
+    "webadmin": {
+    "baseUrl": "http://localhost/litecart/admin/",
+    "username": "admin",
+    "password": "admin"
+  },
+  "db": {
+    "host": "localhost",
+    "name": "addressbook",
+    "user": "root",
+    "password": ""
+
+  }
+
+}
