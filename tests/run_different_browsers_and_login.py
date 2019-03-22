@@ -9,7 +9,6 @@ def app(request):
 
 
 def test_login_and_close(app):
-    #self.app = Application()
     app.login_admin()
     app.driver.quit()
 

@@ -4,7 +4,7 @@ from selenium import webdriver
 class Application:
 
     def __init__(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(5)
 
     def login_admin(self, login="admin", password="admin"):
