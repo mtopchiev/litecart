@@ -1,32 +1,21 @@
 from selenium import webdriver
-from fixture.session import SessionHelper
 
 
 class Application:
 
-    def __init__(self, browser, base_url):
-        if browser == "firefox":
-            self.driver = webdriver.Firefox()
-        elif browser =="chrome":
-            self.driver = webdriver.Chrome()
-        elif browser == "ie":
-            self.driver = webdriver.Ie()
-        else:
-            raise ValueError("Unrecognized browser %s" % browser)
-        self.driver.implicitly_wait(1)
-        self.session =SessionHelper(self)
-        self.base_url = base_url
+    def __init__(self):
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(5)
 
-    def is_valid(self): #проверка активности фикстуры методом запроса url
-        try:
-            self.driver.current_url
-            return True
-        except:
-            return False
-
-    def open_home_page(self):
-        driver = self.driver
-        driver.get(self.base_url)
+    def login_admin(self, login="admin", password="admin"):
+        #self.app = Application()
+        self.driver.get("http://localhost/litecart/admin/")
+        self.driver.find_element_by_name("username").click()
+        self.driver.find_element_by_name("username").clear()
+        self.driver.find_element_by_name("username").send_keys("%s" % login)
+        self.driver.find_element_by_name("password").clear()
+        self.driver.find_element_by_name("password").send_keys("%s" % password)
+        self.driver.find_element_by_name("login").click()
 
     def destroy(self):
-        self.driver.quit()# закрытие браузера
+        self.driver.quit()
