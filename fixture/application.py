@@ -5,7 +5,7 @@ class Application:
 
     def __init__(self):
         self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(1)
 
     def login_admin(self, login="admin", password="admin"):
         #self.app = Application()
@@ -19,3 +19,6 @@ class Application:
 
     def destroy(self):
         self.driver.quit()
+
+    def eshop_home(self):
+        self.driver.get("http://localhost/litecart/en/")

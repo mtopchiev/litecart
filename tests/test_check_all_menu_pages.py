@@ -1,6 +1,5 @@
 from fixture.application import Application
 import pytest
-import time
 @pytest.fixture
 def app(request):   # создаем фикстуру
     fixture = Application()
