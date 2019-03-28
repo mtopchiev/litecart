@@ -4,9 +4,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-import time
-
-
+# Сделайте сценарий для добавления товаров в корзину и удаления товаров из корзины.
+# 1) открыть главную страницу
+# 2) открыть первый товар из списка
+# 2) добавить его в корзину (при этом может случайно добавиться товар, который там уже есть)
+# 3) подождать, пока счётчик товаров в корзине обновится
+# 4) вернуться на главную страницу, повторить предыдущие шаги ещё два раза, чтобы в общей сложности в корзине было 3 единицы товара
+# 5) открыть корзину (в правом верхнем углу кликнуть по ссылке Checkout)
+# 6) удалить все товары из корзины один за другим, после каждого удаления подождать, пока внизу обновится таблица
 
 @pytest.fixture
 def app(request):   # создаем фикстуру
@@ -33,23 +38,6 @@ def test_add_to_cart_and_remove(app):
         app.eshop_home()
 
     app.driver.find_element_by_xpath("//a[contains(.,'Checkout »')]").click()  # перешли в корзину
-
-    # Product_in_cart = app.driver.find_element_by_xpath("//td[@style='text-align: center;']").text
-    # Productint =int(Product_in_cart)
-
-#--------
-    # повторяем цикл удаления пока в таблице есть sku любого товара
-    # while len(app.driver.find_elements_by_xpath(".//*[@id='order_confirmation-wrapper']/table/tbody//td[3]")) > 0:
-    #
-    #
-    #     app.driver.find_element_by_xpath("(//button[contains(.,'Remove')])[1]").click() # кликаем удалить 1 товар из корзины
-    #     time.sleep(2)
-    #     # указание ожидания до завершения анимации удаления товара из корзины. ждем обновления числа в счетчике корзины
-    #     wait = WebDriverWait(app.driver, 10)  # seconds
-    #     wait.until(EC.element_to_be_clickable((By.NAME, 'remove_cart_item')))
-    #
-#------------
-    # Удаление товаров из корзины
 
     products = app.driver.find_elements_by_css_selector('td.item') #список товаров в корзине
     block = app.driver.find_element_by_css_selector('div#checkout-cart-wrapper') #выделили блок содержащий кнопку remove
