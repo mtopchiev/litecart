@@ -34,24 +34,37 @@ def test_add_to_cart_and_remove(app):
 
     app.driver.find_element_by_xpath("//a[contains(.,'Checkout »')]").click()  # перешли в корзину
 
-    Product_in_cart = app.driver.find_element_by_xpath("//td[@style='text-align: center;']").text
-    Productint =int(Product_in_cart)
-    j=0
-    while  Productint > 0:
-        j = j + 1
-        print(j)
-        time.sleep(2)
-        app.driver.find_element_by_xpath("(//button[contains(.,'Remove')])[1]").click() # кликаем удалить 1 товар из корзины
-        # указание ожидания до завершения анимации удаления товара из корзины. ждем обновления числа в счетчике корзины
-        wait = WebDriverWait(app.driver, 10)  # seconds
-        wait.until(EC.visibility_of_element_located((By.NAME, 'remove_cart_item')))
-        Product_in_cart = app.driver.find_element_by_xpath("//td[@style='text-align: center;']").text
-        Productint = int(Product_in_cart)
+    # Product_in_cart = app.driver.find_element_by_xpath("//td[@style='text-align: center;']").text
+    # Productint =int(Product_in_cart)
 
+#--------
+    # повторяем цикл удаления пока в таблице есть sku любого товара
+    # while len(app.driver.find_elements_by_xpath(".//*[@id='order_confirmation-wrapper']/table/tbody//td[3]")) > 0:
+    #
+    #
+    #     app.driver.find_element_by_xpath("(//button[contains(.,'Remove')])[1]").click() # кликаем удалить 1 товар из корзины
+    #     time.sleep(2)
+    #     # указание ожидания до завершения анимации удаления товара из корзины. ждем обновления числа в счетчике корзины
+    #     wait = WebDriverWait(app.driver, 10)  # seconds
+    #     wait.until(EC.element_to_be_clickable((By.NAME, 'remove_cart_item')))
+    #
+#------------
+    # Удаление товаров из корзины
 
-    #wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR,'em'),"There are no items in your cart."))
+    products = app.driver.find_elements_by_css_selector('td.item') #список товаров в корзине
+    block = app.driver.find_element_by_css_selector('div#checkout-cart-wrapper') #выделили блок содержащий кнопку remove
+    for i in range(len(products)):
+        remove = app.driver.find_elements_by_css_selector('button[value = Remove]') #выделили кнопку remove
+        for j in remove:
+            wait.until(EC.visibility_of(block.find_element_by_css_selector('form[name=cart_form]'))) #ждем обработку удаления и видимость оставшихся товаров
+            wait.until(EC.visibility_of(j)).click()     #жмем кнопку удалить
+            wait.until(EC.staleness_of(products[0])) #ждем обновление первого товара в списке корзины
+            break
+        continue
+    wait.until(EC.staleness_of(app.driver.find_element_by_css_selector('div#box-checkout-summary')))
 
-
+    # проверяем что в корзине не осталось ни одного sku
+    assert len(app.driver.find_elements_by_xpath(".//*[@id='order_confirmation-wrapper']/table/tbody//td[3]")) == 0
 
 
 
