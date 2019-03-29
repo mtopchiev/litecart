@@ -23,7 +23,6 @@ def app(request):   # создаем фикстуру
 
 def test_external_links(app):
     app.login_admin()
-
     app.driver.get("http://localhost/litecart/admin/?app=countries&doc=countries") # открыли список стран
     app.driver.find_element_by_xpath("//a[@class ='button'][contains(.,'Add New Country')]").click() #открыли страницу с ссылками
     wait = WebDriverWait(app.driver, 10)
