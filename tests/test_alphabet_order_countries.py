@@ -1,6 +1,6 @@
 from fixture.application import Application
 import pytest
-import time
+
 
 # Сделайте сценарии, которые проверяют сортировку 240 стран и геозон (штатов) в учебном приложении litecart.
 # а) проверить, что страны расположены в алфавитном порядке
